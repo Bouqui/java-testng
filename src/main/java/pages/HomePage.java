@@ -26,10 +26,12 @@ public class HomePage {
     private  By updateBtnID = By.id("btn-update");
     private By updateBtnXpath = By.xpath("/html/body/div[2]/div[2]/aside/div[4]/div/div[2]/div[2]/button[1]");
     private By rightArrowClass=By.className("k-icon k-i-arrow-60-right");
-    private By rightArrowXpath=By.xpath("//*[@id='grid']/div[3]/a[3]");
+    private By rightArrowXpath=By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[3]/a[3]/span");
     private By tableRowXpath=By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr");
     private By firstBelgiumLink= By.linkText("Aedifica NV");
     private By rowItemXpath = By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr[1]/td");
+    private By loadingCheckID= By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr[3]/td[4]");
+    private By activisionLinkText = By.linkText("Activision Blizzard Inc");
 
     //create a constructor for the driver
     public HomePage(WebDriver driver){
@@ -72,9 +74,17 @@ public class HomePage {
     }
 
     public void clickNextArrow(){
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loadingCheckID));
+
+        //scroll to the end of the page
         JavascriptExecutor js = ((JavascriptExecutor) driver);
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-//scroll to the end of the page
+
+        driver.findElement(rightArrowXpath).click();
+        js.executeScript("window.scrollBy(0,-2500)", "");
+
+        driver.findElement(activisionLinkText).click();
 
     }
 }

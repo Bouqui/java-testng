@@ -31,7 +31,7 @@ public class BaseTests {
 
     @AfterClass
     public void tearDown(){
-        driver.quit(); //this is to close the browser after the test run
+        //driver.quit(); //this is to close the browser after the test run
     }
 
 }
