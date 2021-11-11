@@ -18,7 +18,7 @@ public class BaseTests {
         driver = new ChromeDriver();
         driver.get("https://viewpoint.glasslewis.com/WD/?siteId=DemoClient"); //this will launch the browser
         homePage = new HomePage(driver);
-        //to maximize the window
+        //tto maximize the window
         driver.manage().window().maximize();
         //to print the title of the url
         System.out.println(driver.getTitle());
