@@ -3,9 +3,15 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
+import org.testng.Assert;
+import java.util.List;
+
+
+
 
 public class HomePage {
 
@@ -18,6 +24,14 @@ public class HomePage {
     private By searchFieldID = By.id("kendo-Search-for-company");
     private By countryFieldID = By.id("txt-multiselect-static-search-CountryFilter");
     private  By updateBtnID = By.id("btn-update");
+    private By updateBtnXpath = By.xpath("/html/body/div[2]/div[2]/aside/div[4]/div/div[2]/div[2]/button[1]");
+    private By rightArrowClass=By.className("k-icon k-i-arrow-60-right");
+    private By rightArrowXpath=By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[3]/a[3]/span");
+    private By tableRowXpath=By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr");
+    private By firstBelgiumLink= By.linkText("Aedifica NV");
+    private By rowItemXpath = By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr[1]/td");
+    private By loadingCheckID= By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr[3]/td[4]");
+    private By activisionLinkText = By.linkText("Activision Blizzard Inc");
 
     //create a constructor for the driver
     public HomePage(WebDriver driver){
@@ -31,9 +45,46 @@ public class HomePage {
     }
 
     public void clickUpdateBtn(){
+        JavascriptExecutor js = ((JavascriptExecutor) driver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");//this is to scroll down the page vertically by 500pixels
+        driver.findElement(updateBtnXpath).click();
 
-        js.executeScript("arguments[0].scrollIntoView();",updateBtnID );
-        driver.findElement(updateBtnID).click();
+    }
+
+    public void verifyBelgiumInAllRows(){
+        //wait till the expected first row for Belgium meetings is displayed
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstBelgiumLink));
+
+        //count the number of rows returned for all meetings in Belgium
+        List<WebElement> rows = driver.findElements(tableRowXpath);
+        System.out.println(rows.size());
+
+        //check that only meetings in Belgium are displayed on the table
+        List <WebElement> rowItem = driver.findElements(rowItemXpath);
+
+        WebElement cell2 = rowItem.get(5);
+        String countryDisplayed = cell2.getText();
+        System.out.println("country is : " +countryDisplayed);
+        Assert.assertEquals(countryDisplayed, "Belgium");
+
+       /* for(WebElement tdElement : rowItem) {
+            System.out.println("text=" + tdElement.getText());
+        }*/
+    }
+
+    public void clickNextArrow(){
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loadingCheckID));
+
+        //scroll to the end of the page
+        JavascriptExecutor js = ((JavascriptExecutor) driver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        driver.findElement(rightArrowXpath).click();
+        js.executeScript("window.scrollBy(0,-2500)", "");
+
+        driver.findElement(activisionLinkText).click();
 
     }
 }
