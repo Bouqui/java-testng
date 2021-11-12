@@ -51,26 +51,23 @@ public class HomePage {
 
     }
 
-    public void verifyBelgiumInAllRows(){
+    public void verifyBelgiumInAllRows() {
         //wait till the expected first row for Belgium meetings is displayed
         WebDriverWait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(firstBelgiumLink));
 
         //count the number of rows returned for all meetings in Belgium
         List<WebElement> rows = driver.findElements(tableRowXpath);
-        System.out.println(rows.size());
+        System.out.println("Number of rows for Belgium meetings is: " +rows.size());
 
-        //check that only meetings in Belgium are displayed on the table
-        List <WebElement> rowItem = driver.findElements(rowItemXpath);
 
-        WebElement cell2 = rowItem.get(5);
-        String countryDisplayed = cell2.getText();
-        System.out.println("country is : " +countryDisplayed);
-        Assert.assertEquals(countryDisplayed, "Belgium");
+        for (WebElement trElement : rows) {
+            List<WebElement> columns=trElement.findElements(By.xpath("td"));
+            String countryDisplayed = columns.get(5).getText();
+            System.out.println("country is : " + countryDisplayed);
+            Assert.assertEquals(countryDisplayed, "Belgium");
+        }
 
-       /* for(WebElement tdElement : rowItem) {
-            System.out.println("text=" + tdElement.getText());
-        }*/
     }
 
     public void clickNextArrow(){
@@ -85,6 +82,10 @@ public class HomePage {
         js.executeScript("window.scrollBy(0,-2500)", "");
 
         driver.findElement(activisionLinkText).click();
+
+    }
+
+    public void verifyActivision(){
 
     }
 }
