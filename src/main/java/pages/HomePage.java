@@ -36,7 +36,7 @@ public class HomePage {
     }
 
     public void selectBelgium(){
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement searchElement = wait.until(ExpectedConditions.visibilityOfElementLocated(belgiumCheckBoxID));
         searchElement.click();
     }
@@ -92,7 +92,7 @@ public class HomePage {
         System.out.println("Displayed company name is: " + actualCompanyName);
 
         //compare the displayed company name and the expected company name
-        Assert.assertEquals(actualCompanyName,"Actidvision Blizzard Inc");
+        Assert.assertEquals(actualCompanyName,"Activision Blizzard Inc");
 
     }
 }
