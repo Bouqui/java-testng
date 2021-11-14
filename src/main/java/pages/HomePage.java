@@ -21,17 +21,14 @@ public class HomePage {
 
     //This is to declare all the locators needed for the home page
     private  By belgiumCheckBoxID = By.id("Belgium-cb-label-CountryFilter");
-    private By searchFieldID = By.id("kendo-Search-for-company");
-    private By countryFieldID = By.id("txt-multiselect-static-search-CountryFilter");
     private  By updateBtnID = By.id("btn-update");
     private By updateBtnXpath = By.xpath("/html/body/div[2]/div[2]/aside/div[4]/div/div[2]/div[2]/button[1]");
-    private By rightArrowClass=By.className("k-icon k-i-arrow-60-right");
     private By rightArrowXpath=By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[3]/a[3]/span");
     private By tableRowXpath=By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr");
     private By firstBelgiumLink= By.linkText("Aedifica NV");
-    private By rowItemXpath = By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr[1]/td");
     private By loadingCheckID= By.xpath("/html/body/div[2]/div[2]/article/div[2]/div[2]/table/tbody/tr[3]/td[4]");
     private By activisionLinkText = By.linkText("Activision Blizzard Inc");
+    private By companyLabelID = By.id("detail-issuer-name");
 
     //create a constructor for the driver
     public HomePage(WebDriver driver){
@@ -86,6 +83,16 @@ public class HomePage {
     }
 
     public void verifyActivision(){
+        //wait till the company name gets displayed
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebElement companyName = wait.until(ExpectedConditions.visibilityOfElementLocated(companyLabelID));
+
+        //store the company name in a variable and convert to string
+        String actualCompanyName = companyName.getText();
+        System.out.println("Displayed company name is: " + actualCompanyName);
+
+        //compare the displayed company name and the expected company name
+        Assert.assertEquals(actualCompanyName,"Actidvision Blizzard Inc");
 
     }
 }
