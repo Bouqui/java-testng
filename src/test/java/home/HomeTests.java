@@ -17,7 +17,7 @@ public class HomeTests extends BaseTests {
     }
 
     public void testActivisionVoteCard(){
-        //homePage.selectBelgium();
         homePage.clickNextArrow();
+        homePage.verifyActivision();
     }
 }
